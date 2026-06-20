@@ -8,7 +8,7 @@
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -16,8 +16,27 @@
   <!-- ============ TOP NAVIGATION ============ -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#inicio" class="nav__logo" aria-label="Oxígeno Marketing - Inicio">
-        <img src="assets/logo.jpg" alt="Oxígeno Marketing" />
+      <a href="#inicio" class="nav__logo brand" aria-label="Oxígeno Marketing - Inicio">
+        <span class="brand__mark">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Oxígeno">
+            <defs>
+              <linearGradient id="oxgGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#5cb0ef"/>
+                <stop offset=".5" stop-color="#1E73BE"/>
+                <stop offset="1" stop-color="#0e3a63"/>
+              </linearGradient>
+            </defs>
+            <g fill="url(#oxgGrad)">
+              <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z"/>
+              <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z" transform="rotate(120 50 50)"/>
+              <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z" transform="rotate(240 50 50)"/>
+            </g>
+          </svg>
+        </span>
+        <span class="brand__text">
+          <span class="brand__name">oxígeno</span>
+          <span class="brand__sub">MARKETING</span>
+        </span>
       </a>
 
       <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
@@ -218,7 +237,21 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <img src="assets/logo.jpg" alt="Oxígeno Marketing" class="footer__logo" />
+        <span class="brand brand--light footer__brandlogo">
+          <span class="brand__mark">
+            <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Oxígeno">
+              <g fill="url(#oxgGrad)">
+                <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z"/>
+                <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z" transform="rotate(120 50 50)"/>
+                <path d="M50 50 C39 37 41 15 50 4 C61 16 61 38 50 50 Z" transform="rotate(240 50 50)"/>
+              </g>
+            </svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__name">oxígeno</span>
+            <span class="brand__sub">MARKETING</span>
+          </span>
+        </span>
         <p class="footer__name">Oxígeno Marketing SRL</p>
         <p class="footer__tagline">Marketing, trade marketing, acciones BTL y ejecución comercial en toda Argentina.</p>
       </div>

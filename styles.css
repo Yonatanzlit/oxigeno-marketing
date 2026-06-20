@@ -68,18 +68,36 @@ img { max-width: 100%; display: block; }
   max-width: var(--maxw); margin: 0 auto; padding: 14px 24px;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px;
 }
-.nav__logo { justify-self: start; perspective: 700px; }
-.nav__logo img {
-  height: 46px; width: auto;
-  transition: height .3s, transform .7s cubic-bezier(.34,1.56,.64,1), filter .4s;
-  animation: logo3d 6s ease-in-out infinite;
+/* ---- Brand (vector logo: 3D mark + wordmark) ---- */
+.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand__mark { display: inline-block; perspective: 700px; }
+.brand .mark {
+  width: 44px; height: 44px; display: block;
   transform-style: preserve-3d; will-change: transform;
+  transition: width .3s, height .3s, transform .7s cubic-bezier(.34,1.56,.64,1), filter .4s;
+  filter: drop-shadow(0 6px 10px rgba(30,115,190,.28));
 }
-.nav.scrolled .nav__logo img { height: 40px; }
-.nav__logo:hover img {
+.brand__text { display: flex; flex-direction: column; line-height: 1; }
+.brand__name {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.55rem; color: var(--blue-deep); letter-spacing: -.01em;
+}
+.brand__sub {
+  font-family: 'Poppins', sans-serif; font-weight: 600;
+  font-size: .58rem; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--ink-soft); margin-top: 4px; padding-left: 3px;
+}
+.brand--light .brand__name { color: #fff; }
+.brand--light .brand__sub { color: #9fb0bd; }
+
+.nav__logo { justify-self: start; }
+.nav__logo .mark { animation: logo3d 6s ease-in-out infinite; }
+.nav.scrolled .nav__logo .mark { width: 38px; height: 38px; }
+.nav.scrolled .brand__name { font-size: 1.4rem; }
+.nav__logo:hover .mark {
   animation-play-state: paused;
-  transform: rotateY(360deg) translateZ(26px) scale(1.16);
-  filter: drop-shadow(0 16px 26px rgba(30,115,190,.55));
+  transform: rotateY(360deg) translateZ(26px) scale(1.14);
+  filter: drop-shadow(0 16px 26px rgba(30,115,190,.6));
 }
 
 @keyframes logo3d {
@@ -264,7 +282,8 @@ img { max-width: 100%; display: block; }
 .footer__inner {
   display: grid; grid-template-columns: 1.6fr 1fr 1.2fr; gap: 44px; padding-bottom: 50px;
 }
-.footer__logo { height: 50px; width: auto; background: #fff; padding: 6px 10px; border-radius: 10px; margin-bottom: 18px; }
+.footer__brandlogo { margin-bottom: 18px; }
+.footer__brandlogo .mark { width: 42px; height: 42px; }
 .footer__name { font-family: 'Poppins', sans-serif; font-weight: 600; color: #fff; font-size: 1.1rem; }
 .footer__tagline { font-size: .95rem; margin-top: 8px; max-width: 320px; color: #9fb0bd; }
 .footer__col h4 { font-family: 'Poppins', sans-serif; color: #fff; font-size: 1rem; margin-bottom: 16px; }
@@ -322,6 +341,6 @@ img { max-width: 100%; display: block; }
   * { scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .btn:hover, .card:hover { transform: none; }
-  .nav__logo img { animation: none; }
-  .nav__logo:hover img { transform: none; }
+  .nav__logo .mark { animation: none; }
+  .nav__logo:hover .mark { transform: none; }
 }
