@@ -24,6 +24,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+html, body { overflow-x: hidden; }
 
 body {
   font-family: 'EB Garamond', Georgia, serif;
@@ -183,9 +184,11 @@ img { max-width: 100%; display: block; }
 }
 .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--blue-tint); }
 .card__icon {
-  width: 60px; height: 60px; display: grid; place-items: center; font-size: 1.7rem;
-  background: var(--blue-soft); border-radius: 16px; margin-bottom: 22px;
+  width: 60px; height: 60px; display: grid; place-items: center;
+  background: var(--blue-soft); border-radius: 16px; margin-bottom: 22px; color: var(--blue);
 }
+.card__icon svg { width: 30px; height: 30px; }
+.card:hover .card__icon { background: var(--blue); color: #fff; }
 .card h3 { font-size: 1.22rem; font-weight: 600; margin-bottom: 12px; }
 .card p { color: var(--ink-soft); font-size: .98rem; }
 
@@ -326,13 +329,34 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 560px) {
-  .section { padding: 72px 0; }
-  .hero { padding: 140px 0 80px; }
-  .cards { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .logo-grid { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 56px 0; }
+  .section__head { margin-bottom: 36px; }
+  .hero { padding: 118px 0 64px; }
+  .hero__title { font-size: clamp(2rem, 8.5vw, 2.7rem); }
+  .hero__sub { font-size: 1.08rem; }
+  .hero__eyebrow {
+    margin-bottom: 18px; white-space: normal; max-width: 100%;
+    font-size: .72rem; padding: 8px 14px; line-height: 1.4; letter-spacing: .03em;
+  }
+  .hero__sub { margin-top: 18px; }
+  .hero__text { margin-top: 14px; }
+  .hero__buttons { flex-direction: column; margin-top: 28px; }
+  .cards { grid-template-columns: 1fr; gap: 16px; }
+  .card { padding: 28px 24px; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 32px; }
+  .stat { padding: 22px 14px; }
+  .why__list { gap: 12px; }
+  .why__list li { padding: 18px 22px; }
+  .logo-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .logo-grid__item { height: 76px; }
   .btn { width: 100%; }
-  .hero__buttons { flex-direction: column; }
+  .footer { padding: 52px 0 0; }
+  .footer__inner { padding-bottom: 38px; }
+}
+
+@media (max-width: 400px) {
+  .section { padding: 48px 0; }
+  .hero { padding: 104px 0 54px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
