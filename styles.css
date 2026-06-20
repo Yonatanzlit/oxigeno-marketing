@@ -192,6 +192,14 @@ img { max-width: 100%; display: block; }
 .card h3 { font-size: 1.22rem; font-weight: 600; margin-bottom: 12px; }
 .card p { color: var(--ink-soft); font-size: .98rem; }
 
+/* Carousel pagination dots (mobile only) */
+.cards__dots { display: none; justify-content: center; align-items: center; gap: 9px; margin-top: 22px; }
+.cards__dot {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--blue-tint); transition: width .3s ease, background .3s ease;
+}
+.cards__dot.active { width: 26px; background: var(--blue); }
+
 /* ---------- Why ---------- */
 .why {
   background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 100%);
@@ -341,12 +349,21 @@ img { max-width: 100%; display: block; }
   .hero__sub { margin-top: 18px; }
   .hero__text { margin-top: 14px; }
   .hero__buttons { flex-direction: column; margin-top: 28px; }
-  .cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .card { padding: 20px 16px; border-radius: 18px; }
-  .card__icon { width: 46px; height: 46px; border-radius: 13px; margin-bottom: 14px; }
-  .card__icon svg { width: 24px; height: 24px; }
-  .card h3 { font-size: 1.02rem; margin-bottom: 8px; line-height: 1.2; }
-  .card p { font-size: .9rem; line-height: 1.45; }
+  /* Services become a swipeable carousel on mobile */
+  .cards {
+    display: flex; grid-template-columns: none; gap: 14px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    padding: 8px 24px 22px; margin: 0 -24px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .cards::-webkit-scrollbar { display: none; }
+  .card {
+    flex: 0 0 80%; scroll-snap-align: center; padding: 30px 26px;
+    transition: transform .25s, box-shadow .45s, border-color .45s;
+  }
+  .card:hover { transform: none; }
+  .cards .card.is-active { box-shadow: var(--shadow); border-color: var(--blue-tint); }
+  .cards__dots { display: flex; }
   .stats { grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 32px; }
   .stat { padding: 22px 14px; }
   .why__list { gap: 12px; }
