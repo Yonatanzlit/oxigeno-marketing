@@ -133,11 +133,11 @@ img { max-width: 100%; display: block; }
     radial-gradient(700px 420px at 75% -10%, rgba(30,115,190,.20), transparent 60%),
     radial-gradient(620px 380px at 15% 0%, rgba(30,115,190,.12), transparent 60%);
 }
-/* Logo "aspa" (3-blade propeller) as a rotating watermark behind the hero */
+/* Real logo "aspa" (3-blade propeller) as a rotating watermark behind the hero */
 .hero__aspa {
   position: absolute; top: 50%; left: 50%;
-  width: min(125vh, 1040px); aspect-ratio: 1;
-  color: var(--blue); opacity: .09;
+  width: min(118vh, 980px); height: auto;
+  opacity: .1; user-select: none;
   transform: translate(-50%, -50%) rotate(0deg);
   transform-origin: center; will-change: transform;
   animation: aspaSpin 42s linear infinite;
