@@ -53,7 +53,7 @@
     const step = (now) => {
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-      el.textContent = prefix + Math.round(eased * target) + suffix;
+      el.textContent = prefix + Math.round(eased * target).toLocaleString('es-AR') + suffix;
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -69,7 +69,7 @@
     }, { threshold: 0.5 });
     counters.forEach((el) => co.observe(el));
   } else {
-    counters.forEach((el) => (el.textContent = (el.dataset.prefix || '') + el.dataset.count + (el.dataset.suffix || '')));
+    counters.forEach((el) => (el.textContent = (el.dataset.prefix || '') + Number(el.dataset.count).toLocaleString('es-AR') + (el.dataset.suffix || '')));
   }
 
   /* Services carousel (mobile): swipe + snap + dots + gentle auto-slide */
