@@ -144,4 +144,128 @@
   /* Footer year */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ============================================================
+     AI chat assistant (Oxi)
+     - Talks to a small backend that runs Claude + emails the
+       transcript to the right inbox (prospects/clients →
+       oxigeno@oxigenoweb.com, candidates → seleccion@oxigenoweb.com).
+     - If OXI_ENDPOINT is empty/unreachable, falls back to a local
+       guided "demo" flow so the widget still works on the static site.
+     ============================================================ */
+  (function initOxiChat() {
+    const OXI_ENDPOINT = ''; // ← set to the deployed backend URL to go live with real Claude
+
+    const launcher = document.getElementById('oxiLauncher');
+    const panel    = document.getElementById('oxiPanel');
+    const closeBtn = document.getElementById('oxiClose');
+    const log      = document.getElementById('oxiLog');
+    const form     = document.getElementById('oxiForm');
+    const input    = document.getElementById('oxiInput');
+    if (!launcher || !panel || !log || !form || !input) return;
+
+    const history = [];   // [{ role: 'user' | 'assistant', text }]
+    let greeted = false;
+    let busy = false;
+
+    const scrollDown = () => { log.scrollTop = log.scrollHeight; };
+
+    function addMsg(text, who) {
+      const el = document.createElement('div');
+      el.className = 'oxi-msg oxi-msg--' + who;
+      el.textContent = text;
+      log.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    function showTyping() {
+      const t = document.createElement('div');
+      t.className = 'oxi-typing';
+      t.innerHTML = '<span></span><span></span><span></span>';
+      log.appendChild(t);
+      scrollDown();
+      return t;
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      launcher.classList.add('is-open');
+      launcher.setAttribute('aria-expanded', 'true');
+      if (!greeted) {
+        greeted = true;
+        const t = showTyping();
+        setTimeout(() => {
+          t.remove();
+          addMsg('¡Hola! 👋 Soy el asistente de Oxígeno Marketing. Puedo contarte sobre nuestros servicios de Trade Marketing, BTL y ejecución comercial — o, si buscás sumarte al equipo, también te ayudo. ¿En qué estás interesado?', 'bot');
+        }, 700);
+      }
+      setTimeout(() => input.focus(), 250);
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      launcher.classList.remove('is-open');
+      launcher.setAttribute('aria-expanded', 'false');
+    }
+
+    launcher.addEventListener('click', () => (panel.hidden ? openPanel() : closePanel()));
+    closeBtn.addEventListener('click', closePanel);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) closePanel(); });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text || busy) return;
+
+      addMsg(text, 'user');
+      history.push({ role: 'user', text });
+      input.value = '';
+      busy = true;
+
+      const typing = showTyping();
+      try {
+        const reply = await getReply(text);
+        typing.remove();
+        addMsg(reply, 'bot');
+        history.push({ role: 'assistant', text: reply });
+      } catch (err) {
+        typing.remove();
+        addMsg('Disculpá, tuve un problema para responder. Escribinos directamente a oxigeno@oxigenoweb.com y te contactamos a la brevedad.', 'bot');
+      } finally {
+        busy = false;
+        input.focus();
+      }
+    });
+
+    async function getReply(text) {
+      if (OXI_ENDPOINT) {
+        const res = await fetch(OXI_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history }),
+        });
+        if (!res.ok) throw new Error('bad response');
+        const data = await res.json();
+        return data.reply;
+      }
+      // Demo fallback (no backend yet) — short guided replies.
+      return new Promise((resolve) => setTimeout(() => resolve(demoReply(text)), 650));
+    }
+
+    function demoReply(text) {
+      const q = text.toLowerCase();
+      const isJob = /(trabaj|empleo|cv|curr|sumar|puesto|vacante|seleccion|rrhh|postul)/.test(q);
+      if (isJob) {
+        return 'Genial que quieras sumarte a Oxígeno. Contame tu nombre, en qué te gustaría trabajar y dejame un mail o teléfono — un responsable de Selección te va a contactar. (También podés escribir a seleccion@oxigenoweb.com).';
+      }
+      if (/(precio|costo|cotiz|presupuesto)/.test(q)) {
+        return 'Los proyectos se cotizan a medida según el canal, la categoría y el alcance de la campaña. Si me dejás tu marca, tu nombre y un mail, un ejecutivo te prepara una propuesta. (O escribinos a oxigeno@oxigenoweb.com).';
+      }
+      if (/(servicio|trade|btl|merch|qué hacen|que hacen|campañ)/.test(q)) {
+        return 'Brindamos soluciones a Empresas y Marcas con servicios de Marketing, Trade Marketing y ejecución comercial en campo: merchandisers, activaciones, relevamiento de información y dashboards a medida. ¿Sobre cuál querés saber más, o preferís que te contacte un ejecutivo?';
+      }
+      return 'Perfecto. Para conectarte con la persona indicada, ¿me dejás tu nombre, tu marca/empresa y un mail o teléfono? Un ejecutivo de Oxígeno te va a contactar a la brevedad.';
+    }
+  })();
 })();
