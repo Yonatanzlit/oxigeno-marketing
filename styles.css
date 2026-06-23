@@ -326,6 +326,27 @@ img { max-width: 100%; display: block; }
 }
 .footer__bottom p { font-size: .88rem; color: #7e8e9b; }
 
+/* ---------- Floating WhatsApp button ---------- */
+.wa-float {
+  position: fixed; right: 22px; bottom: 22px; z-index: 200;
+  width: 58px; height: 58px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #25D366; color: #fff;
+  box-shadow: 0 12px 28px -8px rgba(37,211,102,.65);
+  transition: transform .2s ease, box-shadow .2s ease;
+  animation: waPulse 2.6s ease-in-out infinite;
+}
+.wa-float svg { width: 32px; height: 32px; }
+.wa-float:hover { transform: translateY(-3px) scale(1.07); box-shadow: 0 16px 34px -8px rgba(37,211,102,.8); }
+@keyframes waPulse {
+  0%, 100% { box-shadow: 0 12px 28px -8px rgba(37,211,102,.55); }
+  50%      { box-shadow: 0 12px 30px -6px rgba(37,211,102,.95); }
+}
+@media (max-width: 560px) {
+  .wa-float { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+  .wa-float svg { width: 28px; height: 28px; }
+}
+
 /* ---------- Scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in { opacity: 1; transform: none; }
@@ -409,4 +430,5 @@ img { max-width: 100%; display: block; }
   .nav__logo img { animation: none; }
   .nav__logo:hover img { transform: none; }
   .hero__aspa { animation: none; }
+  .wa-float { animation: none; }
 }
