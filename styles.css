@@ -220,6 +220,8 @@ img { max-width: 100%; display: block; }
 .stats {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 44px;
 }
+/* Forces the row break: first 3 boxes (25 / 6.000 / 800) on top, the other 4 below */
+.stats__break { flex-basis: 100%; height: 0; margin: 0; padding: 0; border: 0; }
 .stat {
   flex: 1 1 158px; max-width: 220px;
   background: #fff; border-radius: var(--radius); padding: 30px 18px; text-align: center;
