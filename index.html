@@ -226,13 +226,12 @@
           <p>Si ya sos cliente, ingresá con tu usuario y contraseña para ver tus reportes, información y documentación de tus campañas.</p>
         </div>
         <div class="portal__visual">
-          <!-- TODO: conectar a la URL/dashboard real de cada cliente (Power BI) cuando esté listo -->
-          <form class="portal-login" action="#" method="post" onsubmit="return false;">
-            <label for="portal-user">Usuario</label>
-            <input id="portal-user" name="usuario" type="text" autocomplete="username" placeholder="Tu usuario" />
-            <label for="portal-pass">Contraseña</label>
-            <input id="portal-pass" name="contrasena" type="password" autocomplete="current-password" placeholder="Tu contraseña" />
+          <!-- Portal de clientes: app.oxigenoweb.com (Firebase project oxigeno-portal). Only the email travels; the password is typed on the portal itself. -->
+          <form class="portal-login" action="https://oxigeno-portal.web.app/login" method="get">
+            <label for="portal-user">Email</label>
+            <input id="portal-user" name="email" type="email" autocomplete="username" placeholder="tu@empresa.com" />
             <button type="submit" class="btn btn--light portal-login__btn">Ingresar al Portal</button>
+            <a class="portal-login__help" href="https://oxigeno-portal.web.app/recuperar">¿Olvidaste tu contraseña?</a>
           </form>
         </div>
       </div>

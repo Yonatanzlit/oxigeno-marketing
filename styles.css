@@ -489,3 +489,7 @@ img { max-width: 100%; display: block; }
   .hero__aspa { animation: none; }
   .wa-float { animation: none; }
 }
+
+/* Portal link to the client portal (2026-10-13) */
+.portal-login__help{display:block;margin-top:.75rem;font-size:.9rem;color:#fff;opacity:.85;text-decoration:underline;text-align:center}
+.portal-login__help:hover{opacity:1}
