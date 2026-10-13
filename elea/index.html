@@ -73,8 +73,6 @@
     .row__k{font-size:.95rem;color:var(--ink-soft)}
     .row__v{font-size:.95rem;font-weight:600;color:var(--ink);text-align:right}
     .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#1f9d5a;margin-right:8px;vertical-align:middle;box-shadow:0 0 0 4px rgba(31,157,90,.15)}
-    .ms{display:inline-flex;align-items:center;gap:8px}
-    .ms svg{width:16px;height:16px}
 
     .help{padding:26px 30px;background:var(--blue-deep);color:#fff;border-color:var(--blue-deep)}
     .help h2{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px}
@@ -92,15 +90,27 @@
     }
     @media (max-width:560px){
       .wrap{padding:0 18px}
-      .top .wrap{height:64px}
-      .brand img{height:36px}
+      .top .wrap{height:60px}
+      .brand img{height:34px}
       .brand__sep,.brand__label{display:none}
-      .client__name{font-size:1.05rem}
-      .report{padding:26px 22px 26px}
-      .report__title{font-size:1.35rem}
-      .cta{width:100%;align-self:stretch}
-      .info,.help{padding:22px 20px}
-      footer .wrap{justify-content:center;text-align:center}
+      .client__name{font-size:1rem}
+      .client__badge{width:34px;height:34px;border-radius:10px;font-size:.74rem}
+      .hero{padding:30px 0 22px}
+      .hero__eyebrow{margin-bottom:10px}
+      .hero h1{font-size:2.3rem}
+      .hero p{font-size:1rem;margin-top:12px}
+      .grid{gap:16px;padding:0 0 44px}
+      .card{border-radius:18px}
+      .report{padding:22px 20px 22px;gap:18px}
+      .report::after{display:none}
+      .report__icon{width:44px;height:44px;border-radius:12px}
+      .report__icon svg{width:22px;height:22px}
+      .report__title{font-size:1.3rem}
+      .report__text{font-size:.98rem}
+      .cta{width:100%;align-self:stretch;font-size:1.08rem;padding:17px 20px}
+      .info,.help{padding:20px}
+      .row{padding:11px 0}
+      footer .wrap{justify-content:center;text-align:center;min-height:0;padding-block:16px;font-size:.8rem}
     }
   </style>
 </head>
@@ -134,17 +144,17 @@
           </div>
           <div>
             <h2 class="report__title">Company Info</h2>
-            <div class="report__sub">Informe Power BI · ELEA</div>
+            <div class="report__sub">Informe de empresa · ELEA</div>
           </div>
         </div>
-        <p class="report__text">Tu informe interactivo de Power BI con la información de la empresa. Se abre en una pestaña nueva, mientras este portal permanece disponible.</p>
+        <p class="report__text">Tu informe interactivo con la información de la empresa. Se abre en una pestaña nueva y este portal permanece disponible.</p>
         <a id="pbi-link" class="cta" href="https://app.powerbi.com/reportEmbed?reportId=0473931d-3c3e-43f8-beaa-3212fc379a11&amp;appId=fa900765-fc40-4da7-abca-737a84e0b6ab&amp;autoAuth=true&amp;ctid=1ff3e32d-6f8b-4514-b4c9-d34cdcb69fff" target="_blank" rel="noopener noreferrer">
           Click for Company Info
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
         </a>
         <p class="report__note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-          <span>El acceso está protegido por Microsoft. Si se solicita, iniciá sesión con tu cuenta corporativa autorizada.</span>
+          <span>Acceso seguro. Si se solicita, iniciá sesión con tu cuenta corporativa autorizada.</span>
         </p>
       </article>
 
@@ -154,7 +164,7 @@
           <div class="rows">
             <div class="row"><span class="row__k">Cliente</span><span class="row__v">ELEA</span></div>
             <div class="row"><span class="row__k">Informe</span><span class="row__v">Company Info</span></div>
-            <div class="row"><span class="row__k">Plataforma</span><span class="row__v ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8.5" height="8.5" fill="#F25022"/><rect x="12.5" y="3" width="8.5" height="8.5" fill="#7FBA00"/><rect x="3" y="12.5" width="8.5" height="8.5" fill="#00A4EF"/><rect x="12.5" y="12.5" width="8.5" height="8.5" fill="#FFB900"/></svg>Microsoft Power BI</span></div>
+            <div class="row"><span class="row__k">Acceso</span><span class="row__v">Seguro</span></div>
             <div class="row"><span class="row__k">Estado</span><span class="row__v"><span class="dot" aria-hidden="true"></span>Disponible</span></div>
           </div>
         </article>
