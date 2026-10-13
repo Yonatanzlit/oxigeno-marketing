@@ -36,7 +36,7 @@
     .client__badge{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:#fff;display:grid;place-items:center;font-weight:600;font-size:.82rem;letter-spacing:.06em;box-shadow:var(--shadow-sm)}
 
     /* Hero */
-    .hero{padding:56px 0 28px}
+    .hero{padding-block:56px 28px}
     .hero__eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--blue-dark);margin-bottom:16px}
     .hero__eyebrow::before{content:"";width:28px;height:2px;background:var(--blue);border-radius:2px}
     .hero h1{font-family:var(--serif);font-size:clamp(2.4rem,5.2vw,3.8rem);line-height:1.05;letter-spacing:-.01em;font-weight:500;color:var(--blue-deep)}
@@ -44,7 +44,7 @@
     .hero p{margin-top:16px;font-size:1.08rem;line-height:1.6;color:var(--ink-soft);max-width:600px}
 
     /* Dashboard grid */
-    .grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;padding:12px 0 64px}
+    .grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;padding-block:12px 64px}
     .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
 
     .report{position:relative;overflow:hidden;padding:36px 36px 34px;display:flex;flex-direction:column;gap:22px;background:linear-gradient(160deg,#fff 0%,#fff 55%,var(--blue-soft) 100%)}
@@ -86,7 +86,7 @@
 
     @media (max-width:860px){
       .grid{grid-template-columns:1fr}
-      .hero{padding:40px 0 28px}
+      .hero{padding-block:40px 28px}
     }
     @media (max-width:560px){
       .wrap{padding:0 18px}
@@ -95,11 +95,11 @@
       .brand__sep,.brand__label{display:none}
       .client__name{font-size:1rem}
       .client__badge{width:34px;height:34px;border-radius:10px;font-size:.74rem}
-      .hero{padding:30px 0 22px}
+      .hero{padding-block:30px 22px}
       .hero__eyebrow{margin-bottom:10px}
       .hero h1{font-size:2.3rem}
       .hero p{font-size:1rem;margin-top:12px}
-      .grid{gap:16px;padding:0 0 44px}
+      .grid{gap:16px;padding-block:0 44px}
       .card{border-radius:18px}
       .report{padding:22px 20px 22px;gap:18px}
       .report::after{display:none}
