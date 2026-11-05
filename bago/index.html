@@ -122,7 +122,6 @@
     .tab[aria-selected="true"]{background:var(--blue-deep);color:#fff;box-shadow:0 8px 18px -10px rgba(14,58,99,.7)}
     .tab:focus-visible{outline:3px solid var(--blue-tint);outline-offset:2px}
     .tab__new{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;background:var(--bv);color:#fff;padding:3px 7px;border-radius:999px}
-    [hidden]{display:none!important}
 
     /* ---------- Juegos (manager panel) ---------- */
     :root{--bv:#F07D1A;--bv-dark:#d9650a}
@@ -198,6 +197,8 @@
       .tile b{font-size:1.6rem}
       .qr__btns{grid-template-columns:1fr}
     }
+    /* keep last: hidden screens must stay hidden */
+    [hidden],[hidden][hidden]{display:none!important}
   </style>
 </head>
 <body>
@@ -349,6 +350,6 @@
   </footer>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-  <script src="portal.js?v=1" defer></script>
+  <script src="portal.js?v=2" defer></script>
 </body>
 </html>
