@@ -124,113 +124,79 @@
     .tab__new{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;background:var(--bv);color:#fff;padding:3px 7px;border-radius:999px}
     [hidden]{display:none!important}
 
-    /* ---------- Memotest ---------- */
-    :root{--bv:#F07D1A;--bv-dark:#d9650a;--bv-deep:#b84f02;--bv-soft:#fff3e8;--gold:#ffb21e}
-    .game{padding-block:12px 64px}
-    .game__card{padding:22px;overflow:hidden;position:relative;background:radial-gradient(120% 80% at 50% 0%,#fff 0%,#fff 45%,var(--bv-soft) 100%)}
-    .hud{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-    .stats{display:flex;gap:10px}
-    .stat{min-width:78px;padding:9px 12px 8px;border-radius:14px;background:var(--white);border:1px solid var(--line);text-align:center;box-shadow:0 4px 12px -8px rgba(14,58,99,.35)}
-    .stat b{display:block;font-family:var(--serif);font-size:1.45rem;line-height:1;color:var(--blue-deep);font-variant-numeric:tabular-nums}
-    .stat span{display:block;margin-top:4px;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
-    .stat.bump b{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
-    @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.35);color:var(--bv)}100%{transform:scale(1)}}
-    .hud__actions{display:flex;gap:8px}
-    .btn{appearance:none;border:1px solid var(--line);background:var(--white);color:var(--blue-deep);font:inherit;font-weight:600;font-size:.92rem;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;cursor:pointer;transition:transform .15s,background .2s,box-shadow .2s;touch-action:manipulation}
-    .btn:hover{background:var(--blue-soft)}
-    .btn:active{transform:scale(.96)}
-    .btn svg{width:18px;height:18px;flex:none}
-    .btn--icon{padding:10px;width:42px;justify-content:center}
-    .btn:focus-visible{outline:3px solid var(--blue-tint);outline-offset:2px}
+    /* ---------- Juegos (manager panel) ---------- */
+    :root{--bv:#F07D1A;--bv-dark:#d9650a}
+    .games{display:grid;gap:24px;padding-block:12px 64px}
+    .gcard{padding:28px 30px}
+    .gcard__head{display:flex;align-items:center;gap:16px}
+    .thumb{width:64px;height:64px;flex:none;border-radius:16px;background:linear-gradient(150deg,#ff9a3c,var(--bv-dark));display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:9px;box-shadow:0 10px 20px -12px rgba(184,79,2,.9)}
+    .thumb i{border-radius:5px;background:rgba(255,255,255,.9)}
+    .thumb i:nth-child(2),.thumb i:nth-child(3){background:rgba(255,255,255,.35)}
+    .gcard__title{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--blue-deep);line-height:1.15}
+    .gcard__sub{font-size:.92rem;color:var(--ink-mute);margin-top:3px}
+    .pill{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:#1f7a49;background:#e8f6ee;padding:6px 12px;border-radius:999px;white-space:nowrap}
+    .pill::before{content:"";width:8px;height:8px;border-radius:50%;background:#1f9d5a}
+    .field{margin-top:24px}
+    .field label{display:block;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;margin-bottom:8px}
+    .linkbox{display:flex;gap:8px}
+    .linkbox input{flex:1;min-width:0;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+    .gbtn{appearance:none;font:inherit;font-weight:600;font-size:.98rem;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 18px;border-radius:12px;cursor:pointer;text-decoration:none;border:1px solid var(--line);background:var(--white);color:var(--blue-deep);transition:background .2s,transform .15s;white-space:nowrap;touch-action:manipulation}
+    .gbtn:hover{background:var(--blue-soft)}
+    .gbtn:active{transform:scale(.97)}
+    .gbtn:focus-visible{outline:3px solid var(--blue-tint);outline-offset:2px}
+    .gbtn svg{width:18px;height:18px;flex:none}
+    .gbtn--main{background:var(--blue);border-color:var(--blue);color:#fff}
+    .gbtn--main:hover{background:var(--blue-dark)}
+    .gbtn.ok{background:#1f9d5a;border-color:#1f9d5a;color:#fff}
+    .gactions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 
-    .stage{position:relative;max-width:560px;margin:0 auto}
-    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,2.2vw,14px);perspective:1100px}
-    .mc{appearance:none;border:0;background:none;padding:0;aspect-ratio:4/5;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:16px}
-    .mc:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-    .mc__in{position:absolute;inset:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,1.35,.45,1);border-radius:inherit}
-    .mc:hover:not(.up):not(.done) .mc__in{transform:translateY(-3px) rotateX(6deg)}
-    .mc:active:not(.up):not(.done) .mc__in{transform:scale(.95)}
-    .mc.up .mc__in,.mc.done .mc__in{transform:rotateY(180deg)}
-    .mc__f{position:absolute;inset:0;border-radius:inherit;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-    .mc__back{background:linear-gradient(150deg,#ff9a3c 0%,var(--bv) 45%,var(--bv-dark) 100%);box-shadow:0 10px 20px -12px rgba(184,79,2,.9),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(0,0,0,.12);display:grid;place-items:center}
-    .mc__back::before{content:"";position:absolute;inset:6px;border-radius:12px;border:1.5px solid rgba(255,255,255,.35)}
-    .mc__back::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 45%,transparent 60%);transform:translateX(-120%);transition:transform .8s}
-    .mc:hover .mc__back::after{transform:translateX(120%)}
-    .mc__mark{color:#fff;font-weight:700;font-size:clamp(.72rem,2.6vw,1.02rem);letter-spacing:-.01em;text-shadow:0 1px 2px rgba(0,0,0,.18);text-align:center;line-height:1.1}
-    .mc__mark small{display:block;font-size:.55em;font-weight:600;letter-spacing:.2em;opacity:.8;margin-top:3px}
-    .mc__front{transform:rotateY(180deg);background:linear-gradient(180deg,#fff 0%,#f7f9fc 100%);border:1px solid var(--line);box-shadow:0 10px 22px -14px rgba(14,58,99,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8% 6% 6%}
-    .mc__front svg,.mc__front img{width:100%;height:72%;object-fit:contain;display:block}
-    .mc__name{margin-top:4%;font-size:clamp(.52rem,1.7vw,.7rem);font-weight:600;color:var(--ink-soft);text-align:center;line-height:1.15}
-    .mc.done .mc__front{border-color:rgba(240,125,26,.55);box-shadow:0 0 0 3px rgba(240,125,26,.18),0 12px 26px -12px rgba(240,125,26,.6)}
-    .mc.pop{animation:pop .6s cubic-bezier(.3,1.7,.5,1)}
-    @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.14)}100%{transform:scale(1)}}
-    .mc.shake{animation:shake .45s ease}
-    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px) rotate(-2deg)}40%{transform:translateX(6px) rotate(2deg)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
-    .mc.deal{animation:deal .55s cubic-bezier(.25,1.4,.5,1) both}
-    @keyframes deal{0%{opacity:0;transform:translateY(-40px) scale(.6) rotate(-12deg)}100%{opacity:1;transform:none}}
-    .board.locked .mc{cursor:default}
-    .board.idle{filter:blur(2px) saturate(.9);opacity:.55}
+    .scard{padding:28px 30px}
+    .scard__head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .scard__head h2{font-family:var(--serif);font-size:1.45rem;font-weight:600;color:var(--blue-deep)}
+    .scard__head span{font-size:.85rem;color:var(--ink-mute)}
+    .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+    .tile{background:var(--bg);border-radius:14px;padding:16px}
+    .tile b{display:block;font-family:var(--serif);font-size:2rem;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+    .tile span{display:block;margin-top:8px;font-size:.85rem;color:var(--ink-soft);font-weight:500}
+    .tile small{display:block;margin-top:2px;font-size:.78rem;color:var(--ink-mute)}
+    .chart{margin-top:24px}
+    .chart h3{font-size:.95rem;font-weight:600;color:var(--ink)}
+    .chart__plot{position:relative;margin-top:12px}
+    .chart svg{display:block;width:100%;height:180px;overflow:visible}
+    .chart .grid line{stroke:var(--line)}
+    .chart .ax text{font-size:11px;fill:var(--ink-mute);font-family:var(--sans)}
+    .chart .bar{fill:var(--blue)}
+    .chart .hit{fill:transparent;cursor:default}
+    .chart .hit:hover+.bar,.chart g.on .bar{fill:var(--blue-deep)}
+    .tip{position:absolute;pointer-events:none;transform:translate(-50%,-100%);margin-top:-8px;background:var(--ink);color:#fff;font-size:.82rem;padding:7px 10px;border-radius:8px;white-space:nowrap;box-shadow:var(--shadow-sm)}
+    .tip b{font-weight:600}
+    .empty{margin-top:18px;padding:18px;border-radius:14px;background:var(--blue-soft);color:var(--blue-deep);font-size:.95rem;line-height:1.5}
 
-    .ov{position:absolute;inset:-8px;display:grid;place-items:center;z-index:5;padding:12px}
-    .panel{width:min(100%,380px);background:var(--white);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:28px 26px 26px;text-align:center;animation:rise .45s cubic-bezier(.3,1.4,.5,1)}
-    @keyframes rise{0%{opacity:0;transform:translateY(18px) scale(.94)}100%{opacity:1;transform:none}}
-    .panel__logo{height:46px;width:auto;margin:0 auto 10px;display:block}
-    .panel h3{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--blue-deep);line-height:1.1}
-    .panel p{margin-top:10px;color:var(--ink-soft);line-height:1.55;font-size:.98rem}
-    .panel__best{margin-top:12px;font-size:.85rem;color:var(--ink-mute)}
-    .play{appearance:none;border:0;font:inherit;margin-top:20px;width:100%;padding:16px 22px;border-radius:14px;font-weight:700;font-size:1.1rem;color:#fff;cursor:pointer;background:linear-gradient(180deg,#2a86d6 0%,var(--blue) 55%,var(--blue-dark) 100%);box-shadow:0 12px 24px -10px rgba(30,115,190,.75),inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.15);transition:transform .15s;touch-action:manipulation;animation:breathe 2.2s ease-in-out infinite}
-    .play:active{transform:scale(.97)}
-    .play:focus-visible{outline:3px solid var(--blue-tint);outline-offset:3px}
-    @keyframes breathe{0%,100%{box-shadow:0 12px 24px -10px rgba(30,115,190,.75),inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.15)}50%{box-shadow:0 12px 34px -6px rgba(30,115,190,.85),inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.15)}}
+    dialog.qr{border:0;border-radius:22px;padding:28px 26px 24px;width:min(92vw,400px);box-shadow:var(--shadow);text-align:center;color:var(--ink)}
+    dialog.qr::backdrop{background:rgba(14,32,48,.55)}
+    dialog.qr h2{font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--blue-deep)}
+    dialog.qr p{margin-top:4px;font-size:.88rem;color:var(--ink-mute);word-break:break-all}
+    .qrbox{margin:18px auto 0;width:min(100%,280px);aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .qrbox svg{width:100%;height:100%;display:block}
+    .qr__btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+    .qr__close{margin-top:10px;width:100%}
 
-    .count{pointer-events:none}
-    .count b{font-family:var(--serif);font-size:clamp(4.5rem,18vw,8rem);font-weight:700;color:var(--blue-deep);text-shadow:0 6px 24px rgba(14,58,99,.25);animation:cnt .8s cubic-bezier(.3,1.5,.5,1) both}
-    .count b.go{color:var(--bv)}
-    @keyframes cnt{0%{opacity:0;transform:scale(2.2)}30%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(.8)}}
-
-    .toast{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:6;pointer-events:none;font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,7vw,2.8rem);color:#fff;white-space:nowrap;padding:6px 22px 8px;border-radius:999px;background:linear-gradient(180deg,#ff9a3c,var(--bv-dark));box-shadow:0 14px 30px -10px rgba(184,79,2,.8);opacity:0}
-    .toast.show{animation:toast 1.1s cubic-bezier(.3,1.5,.5,1) both}
-    @keyframes toast{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-6deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(2deg)}40%{transform:translate(-50%,-50%) scale(1) rotate(0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-90%) scale(.95)}}
-    .float{position:fixed;z-index:50;pointer-events:none;transform:translate(-50%,-50%);font-weight:700;font-size:.95rem;color:var(--bv-deep);background:#fff;border:1px solid rgba(240,125,26,.4);padding:6px 12px;border-radius:999px;box-shadow:0 10px 22px -10px rgba(184,79,2,.6);white-space:nowrap;animation:floatup 1.4s cubic-bezier(.2,.8,.3,1) forwards}
-    @keyframes floatup{0%{opacity:0;transform:translate(-50%,-30%) scale(.7)}18%{opacity:1;transform:translate(-50%,-60%) scale(1.05)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-190%) scale(1)}}
-    .spark{position:fixed;z-index:49;pointer-events:none;width:9px;height:9px;border-radius:50%;margin:-4.5px 0 0 -4.5px}
-
-    .stars{display:flex;justify-content:center;gap:10px;margin:14px 0 6px}
-    .stars svg{width:54px;height:54px;color:#e3e8ee;transition:color .2s}
-    .stars svg.on{color:var(--gold);filter:drop-shadow(0 6px 10px rgba(255,178,30,.45));animation:star .55s cubic-bezier(.3,1.8,.5,1) both}
-    .stars svg:nth-child(2){transform:translateY(-10px)}
-    .stars svg:nth-child(2).on{animation-name:star2}
-    @keyframes star{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
-    @keyframes star2{0%{transform:translateY(-10px) scale(0) rotate(-40deg)}100%{transform:translateY(-10px) scale(1) rotate(0)}}
-    .res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-    .res div{background:var(--bg);border-radius:14px;padding:12px 8px}
-    .res b{display:block;font-family:var(--serif);font-size:1.7rem;color:var(--blue-deep);line-height:1;font-variant-numeric:tabular-nums}
-    .res span{display:block;margin-top:5px;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
-    .record{display:inline-block;margin-top:12px;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,#ff9a3c,var(--bv-dark));padding:6px 14px;border-radius:999px;animation:pop .6s .9s cubic-bezier(.3,1.7,.5,1) both}
-    #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
-
+    @media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:560px){
       .tabs{width:100%;margin-top:18px}
       .tab{flex:1;justify-content:center;padding:11px 10px;font-size:.94rem}
-      .game{padding-block:0 40px}
-      .game__card{padding:14px 12px 16px;margin:0 -6px}
-      .hud{margin-bottom:14px;gap:10px}
-      .stats{gap:6px;flex:1}
-      .stat{min-width:0;flex:1;padding:8px 6px 7px}
-      .stat b{font-size:1.25rem}
-      .stat span{font-size:.58rem;letter-spacing:.08em}
-      .hud__actions{width:100%;justify-content:space-between}
-      .hud__actions .btn:last-child{flex:1;justify-content:center}
-      .mc{border-radius:12px}
-      .mc__back::before{inset:4px;border-radius:9px}
-      .panel{padding:22px 18px 20px}
-      .panel h3{font-size:1.7rem}
-      .stars svg{width:46px;height:46px}
-    }
-    @media (prefers-reduced-motion:reduce){
-      .mc__in{transition-duration:.01s}
-      .mc.deal,.mc.shake,.mc.pop,.play,.stars svg.on,.toast.show,.record{animation:none!important}
-      .toast.show{opacity:1}
+      .games{gap:16px;padding-block:0 44px}
+      .gcard,.scard{padding:20px}
+      .gcard__head{flex-wrap:wrap;gap:12px}
+      .thumb{width:52px;height:52px;border-radius:13px;padding:7px}
+      .gcard__title{font-size:1.3rem}
+      .pill{margin-left:0}
+      .linkbox{flex-direction:column}
+      .gactions .gbtn{flex:1 1 100%}
+      .tiles{gap:10px}
+      .tile{padding:14px}
+      .tile b{font-size:1.6rem}
+      .qr__btns{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -259,9 +225,9 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3"/><path d="M12 14V8"/><path d="M17 14v-5"/></svg>
           Informe
         </button>
-        <button class="tab" role="tab" id="tab-memotest" aria-controls="panel-memotest" aria-selected="false" tabindex="-1">
+        <button class="tab" role="tab" id="tab-juegos" aria-controls="panel-juegos" aria-selected="false" tabindex="-1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8"/></svg>
-          Memotest <span class="tab__new">Nuevo</span>
+          Juegos
         </button>
       </div>
     </section>
@@ -306,59 +272,73 @@
       </div>
     </section>
 
-    <section class="wrap game" id="panel-memotest" role="tabpanel" aria-labelledby="tab-memotest" hidden>
-      <div class="card game__card">
-        <div class="hud">
-          <div class="stats">
-            <div class="stat" id="st-time"><b id="v-time">00:00</b><span>Tiempo</span></div>
-            <div class="stat" id="st-tries"><b id="v-tries">0</b><span>Intentos</span></div>
-            <div class="stat" id="st-pairs"><b id="v-pairs">0/8</b><span>Parejas</span></div>
+    <section class="wrap games" id="panel-juegos" role="tabpanel" aria-labelledby="tab-juegos" hidden>
+      <article class="card gcard">
+        <div class="gcard__head">
+          <div class="thumb" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div>
+            <h2 class="gcard__title">Memotest Bagóvit</h2>
+            <div class="gcard__sub">Juego de memoria · 8 pares de productos</div>
           </div>
-          <div class="hud__actions">
-            <button class="btn btn--icon" id="mute" aria-label="Silenciar sonido" aria-pressed="false">
-              <svg id="ic-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-              <svg id="ic-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
-            </button>
-            <button class="btn" id="restart">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-              Reiniciar
+          <span class="pill">Activo</span>
+        </div>
+
+        <div class="field">
+          <label for="g-link">Link del juego</label>
+          <div class="linkbox">
+            <input id="g-link" type="text" readonly value="https://oxigenoweb.com/bago/memotest/" />
+            <button class="gbtn gbtn--main" id="g-copy" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copiar link</span>
             </button>
           </div>
         </div>
 
-        <div class="stage" id="stage">
-          <div class="board idle locked" id="board" aria-label="Tablero de cartas"></div>
-
-          <div class="ov" id="intro">
-            <div class="panel">
-              <img class="panel__logo" src="/assets/logo.png" alt="Oxígeno Marketing" />
-              <h3>Memotest</h3>
-              <p>Encontrá los 8 pares en la menor cantidad de intentos y en el menor tiempo posible.</p>
-              <div class="panel__best" id="best-intro" hidden></div>
-              <button class="play" id="play">Jugar</button>
-            </div>
-          </div>
-
-          <div class="ov count" id="count" hidden></div>
-
-          <div class="ov" id="win" hidden>
-            <div class="panel" role="dialog" aria-labelledby="win-title">
-              <h3 id="win-title">¡Excelente!</h3>
-              <div class="stars" id="stars" aria-label="Estrellas obtenidas"></div>
-              <div class="res">
-                <div><b id="r-time">00:00</b><span>Tiempo</span></div>
-                <div><b id="r-tries">0</b><span>Intentos</span></div>
-              </div>
-              <span class="record" id="record" hidden>Nuevo récord</span>
-              <div class="panel__best" id="best-win" hidden></div>
-              <button class="play" id="again">Jugar de nuevo</button>
-            </div>
-          </div>
-
-          <div class="toast" id="toast" aria-hidden="true"></div>
+        <div class="gactions">
+          <button class="gbtn" id="g-qr" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3z"/><path d="M20 14v.01"/><path d="M14 20h.01"/><path d="M17 17h4v4"/></svg>
+            Ver código QR
+          </button>
+          <button class="gbtn" id="g-dl" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Descargar QR
+          </button>
+          <a class="gbtn" href="memotest/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+            Probar juego
+          </a>
         </div>
-      </div>
+      </article>
+
+      <article class="card scard" aria-live="polite">
+        <div class="scard__head">
+          <h2>Estadísticas</h2>
+          <span id="s-updated">Cargando…</span>
+        </div>
+        <div class="tiles">
+          <div class="tile"><b id="s-visits">–</b><span>Visitas</span><small>Personas que abrieron el juego</small></div>
+          <div class="tile"><b id="s-starts">–</b><span>Partidas</span><small>Veces que tocaron Jugar</small></div>
+          <div class="tile"><b id="s-finishes">–</b><span>Terminadas</span><small id="s-rate">Encontraron los 8 pares</small></div>
+          <div class="tile"><b id="s-time">–</b><span>Tiempo promedio</span><small id="s-tries">Por partida terminada</small></div>
+        </div>
+        <div class="chart">
+          <h3>Partidas por día · últimos 30 días</h3>
+          <div class="chart__plot" id="chart"></div>
+        </div>
+        <div class="empty" id="s-empty" hidden>Todavía no hay partidas. Compartí el link o el código QR para que tus clientes empiecen a jugar.</div>
+      </article>
     </section>
+
+    <dialog class="qr" id="qr-dlg" aria-labelledby="qr-title">
+      <h2 id="qr-title">Código QR del juego</h2>
+      <p>Escaneá con la cámara del celular para abrir el Memotest.</p>
+      <div class="qrbox" id="qr-box"></div>
+      <div class="qr__btns">
+        <button class="gbtn gbtn--main" id="qr-png" type="button">Descargar PNG</button>
+        <button class="gbtn" id="qr-svg" type="button">Descargar para imprimir (SVG)</button>
+      </div>
+      <button class="gbtn qr__close" id="qr-close" type="button">Cerrar</button>
+    </dialog>
   </main>
 
   <footer>
@@ -367,8 +347,8 @@
       <a href="https://oxigenoweb.com/">oxigenoweb.com</a>
     </div>
   </footer>
-  <canvas id="confetti" hidden></canvas>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-  <script src="memotest.js?v=1" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script src="portal.js?v=1" defer></script>
 </body>
 </html>

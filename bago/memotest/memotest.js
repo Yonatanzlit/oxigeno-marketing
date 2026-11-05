@@ -1,6 +1,6 @@
 /* Memotest Bagóvit — Oxígeno Marketing, portal de cliente para Bagó.
    Plain JS, no dependencies. To use real product photos, set `img` on a
-   product (e.g. img: "img/solar-50.png" inside /bago/) and it replaces the drawing. */
+   product (e.g. img: "img/solar-50.png" inside /bago/memotest/) and it replaces the drawing. */
 (function () {
   "use strict";
 
@@ -34,26 +34,16 @@
   function buzz(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
   function bump(id) { var el = $(id); el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
 
-  /* ---------- Tabs (#memotest opens the game) ---------- */
-  var tabs = [$("tab-informe"), $("tab-memotest")];
-  function showTab(which, focus) {
-    tabs.forEach(function (t) {
-      var on = t.id === "tab-" + which;
-      t.setAttribute("aria-selected", on ? "true" : "false");
-      t.tabIndex = on ? 0 : -1;
-      $(t.getAttribute("aria-controls")).hidden = !on;
-      if (on && focus) t.focus();
-    });
-    var want = which === "memotest" ? "#memotest" : " ";
-    if (history.replaceState) history.replaceState(null, "", want === " " ? location.pathname + location.search : want);
+  /* ---------- Statistics: counts only, no personal data (see ../stats.php) ---------- */
+  function track(e, extra) {
+    try {
+      var body = "e=" + e + (extra ? "&t=" + Math.round(extra.t) + "&a=" + extra.a : "");
+      var url = "../stats.php";
+      if (navigator.sendBeacon) navigator.sendBeacon(url, new Blob([body], { type: "application/x-www-form-urlencoded" }));
+      else fetch(url, { method: "POST", body: body, headers: { "Content-Type": "application/x-www-form-urlencoded" }, keepalive: true });
+    } catch (err) {}
   }
-  tabs.forEach(function (t, i) {
-    t.addEventListener("click", function () { showTab(t.id.slice(4)); });
-    t.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); showTab(tabs[(i + 1) % 2].id.slice(4), true); }
-    });
-  });
-  if (location.hash === "#memotest") showTab("memotest");
+  try { if (!sessionStorage.getItem("bago-memo-v")) { sessionStorage.setItem("bago-memo-v", "1"); track("visit"); } } catch (err) { track("visit"); }
 
   /* ---------- Sound: synthesized in the browser, no files ---------- */
   var muted = store("bago-memo-muted") === "1", ac = null;
@@ -136,6 +126,7 @@
 
   function start() {
     reset();
+    track("start");
     $("intro").hidden = true; $("win").hidden = true; $("count").hidden = true;
     board.classList.remove("idle");
     board.classList.add("locked");
@@ -278,6 +269,7 @@
     })(s);
   }
   function win() {
+    track("finish", { t: elapsed, a: tries });
     var n = starsFor(tries), best = readBest();
     var isRecord = !best || tries < best.tries || (tries === best.tries && elapsed < best.time);
     if (isRecord) store("bago-memo-best", JSON.stringify({ tries: tries, time: Math.round(elapsed) }));
