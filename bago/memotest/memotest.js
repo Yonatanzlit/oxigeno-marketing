@@ -88,7 +88,17 @@
     $("mute").setAttribute("aria-pressed", muted ? "true" : "false");
     $("mute").setAttribute("aria-label", muted ? "Activar sonido" : "Silenciar sonido");
   }
-  $("mute").addEventListener("click", function () { muted = !muted; store("bago-memo-muted", muted ? "1" : "0"); paintMute(); if (!muted) sfx.flip(); });
+  $("mute").addEventListener("click", function () {
+    muted = !muted; store("bago-memo-muted", muted ? "1" : "0"); paintMute();
+    if (muted) { if (music) music.stop(0.1); } else { sfx.flip(); if (matched < PAIRS) musicOn(); }
+  });
+  /* ---------- Music: in-browser loop, synced to the HUD ---------- */
+  var music = window.BagoMusic ? window.BagoMusic(audio) : null;
+  function pulse(id) { var el = $(id); if (!el) return; el.classList.remove("beat"); void el.offsetWidth; el.classList.add("beat"); }
+  function band() { return Math.min(3, 1 + Math.floor(matched / 3) + (combo >= 2 ? 1 : 0)); }
+  function musicOn() { if (music && !muted && t0) music.start({ style: "calm", bpm: 96, layer: band() }); }
+  function musicSync() { if (music) music.setLayer(band()); }
+  if (music) music.onBeat(function (n) { if (!reduced && n % 2 === 0) pulse("st-time"); });
   paintMute();
 
   /* ---------- Game state ---------- */
@@ -122,7 +132,8 @@
     $("bar").style.width = (100 * matched / PAIRS) + "%";
   }
   function reset() {
-    clearAll(); open = []; matched = 0; tries = 0; combo = 0; elapsed = 0; lock = true;
+    clearAll(); open = []; matched = 0; tries = 0; combo = 0; elapsed = 0; lock = true; t0 = 0;
+    if (music) music.stop(0.15);
     build(); hud();
   }
 
@@ -154,7 +165,7 @@
         el.hidden = true; el.innerHTML = "";
         cards.forEach(function (c) { c.classList.remove("deal"); c.style.animationDelay = ""; });
         board.classList.remove("locked"); lock = false;
-        t0 = performance.now();
+        t0 = performance.now(); musicOn();
         timer = setInterval(function () { elapsed = (performance.now() - t0) / 1000; $("v-time").textContent = fmt(elapsed); }, 250);
       }, reduced ? 250 : 600);
     })();
@@ -179,17 +190,17 @@
       later(function () { c.classList.remove("pop"); }, 650);
       burst(c);
     });
-    sfx.match(combo); buzz([12, 40, 18]);
+    sfx.match(combo); buzz([12, 40, 18]); musicSync();
     floatLabel(b, a._p.name);
     hud(); bump("st-pairs");
     if (combo >= 2) toast("¡Combo x" + combo + "!");
-    if (matched === PAIRS) { clearInterval(timer); elapsed = (performance.now() - t0) / 1000; hud(); later(win, 700); return; }
+    if (matched === PAIRS) { if (music) music.stop(0.6); clearInterval(timer); elapsed = (performance.now() - t0) / 1000; hud(); later(win, 700); return; }
     lock = false;
   }
   function miss(a, b) {
     combo = 0;
     [a, b].forEach(function (c) { c.classList.add("shake"); });
-    sfx.miss(); buzz(30);
+    sfx.miss(); buzz(30); if (music) { music.duck(); musicSync(); }
     later(function () {
       [a, b].forEach(function (c) { c.classList.remove("shake", "up"); c.setAttribute("aria-label", "Carta " + (c._i + 1) + ", boca abajo"); });
       open = []; lock = false;

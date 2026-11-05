@@ -100,7 +100,22 @@
     $("mute").setAttribute("aria-pressed", muted ? "true" : "false");
     $("mute").setAttribute("aria-label", muted ? "Activar sonido" : "Silenciar sonido");
   }
-  $("mute").addEventListener("click", function () { muted = !muted; store("bago-gondola-muted", muted ? "1" : "0"); paintMute(); if (!muted) sfx.tick(); });
+  $("mute").addEventListener("click", function () {
+    muted = !muted; store("bago-gondola-muted", muted ? "1" : "0"); paintMute();
+    if (muted) { if (music) music.stop(0.1); } else { sfx.tick(); if (playing) musicOn(); }
+  });
+  /* ---------- Music: in-browser loop, synced to the HUD ---------- */
+  var music = window.BagoMusic ? window.BagoMusic(audio) : null;
+  function pulse(id) { var el = $(id); if (!el) return; el.classList.remove("beat"); void el.offsetWidth; el.classList.add("beat"); }
+  function tempo() { return Math.min(164, 116 + (level - 1) * 8) + (time <= 5 ? 16 : 0); }
+  function band() { return Math.min(3, level + (combo >= 6 ? 1 : 0)); }
+  function musicOn() { if (music && !muted) { music.start({ style: "rush", bpm: tempo(), layer: band() }); } }
+  function musicSync() { if (music) { music.setBpm(tempo()); music.setLayer(band()); } }
+  if (music) music.onBeat(function (n) {
+    if (reduced || !playing) return;
+    pulse("sign"); if (time <= 5) pulse("st-time");
+    if (n % 4 === 0) pulse("prog");
+  });
   paintMute();
 
   /* ---------- Levels: more products, moving shelves, look-alike packs ---------- */
@@ -165,12 +180,15 @@
     var warn = playing && time <= 5;
     $("st-time").classList.toggle("warn", warn); $("prog").classList.toggle("warn", warn);
     if (warn && s !== lastSec && s > 0) sfx.warn();
+    if (warn !== lastWarn) { lastWarn = warn; musicSync(); }
     lastSec = s;
   }
+  var lastWarn = false;
   function setLocked(on) { unit.classList.toggle("locked", on); }
 
   function reset() {
-    clearAll(); playing = false; paused = false;
+    clearAll(); playing = false; paused = false; lastWarn = false;
+    if (music) music.stop(0.15);
     level = 1; total = 0; score = 0; combo = 0; time = START_TIME;
     layout(); stock(1, false);
   }
@@ -191,7 +209,7 @@
       if (i < seq.length) later(step, reduced ? 350 : 650);
       else later(function () {
         el.hidden = true; el.innerHTML = "";
-        playing = true; setLocked(false);
+        playing = true; setLocked(false); musicOn();
         last = performance.now(); raf = requestAnimationFrame(loop);
       }, reduced ? 250 : 550);
     })();
@@ -215,7 +233,7 @@
     var pts = 100 + 25 * Math.min(combo - 1, 8);
     score += pts;
     unit.querySelectorAll('.it[data-k="' + b.getAttribute("data-k") + '"]').forEach(function (x) { x.classList.add("got"); });
-    burst(b); floatAt(b, "+" + pts, ""); sfx.hit(combo); buzz(10);
+    burst(b); floatAt(b, "+" + pts, ""); sfx.hit(combo); buzz(10); musicSync();
     hud(); bump("st-score"); bump("st-left");
     if (combo === 3 || combo === 6 || combo === 10 || combo === 15) toast("¡Combo x" + combo + "!", "");
     if (found === need) levelUp();
@@ -225,12 +243,13 @@
     b.classList.add("bad"); later(function () { b.classList.remove("bad"); }, 450);
     var f = $("flash"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
     floatAt(b, "−" + MISS_COST + " s", "bad"); sfx.miss(); buzz(40);
+    if (music) { music.duck(); musicSync(); }
     paintTime(); bump("st-time");
   }
   function levelUp() {
     paused = true; setLocked(true);
     level++; time += LEVEL_BONUS;
-    sfx.level(); buzz([15, 40, 15]);
+    sfx.level(); buzz([15, 40, 15]); musicSync();
     floatAt($("st-time"), "+" + LEVEL_BONUS + " s", "plus");
     later(function () { toast("¡Nivel " + level + "!", "blue"); }, 250);
     later(function () { stock(level, !reduced); paintTime(); }, 900);
@@ -239,6 +258,7 @@
   function end() {
     playing = false; setLocked(true); clearAll();
     tracks.forEach(function (tr) { tr.style.animationPlayState = "paused"; });
+    if (music) music.stop(0.5);
     sfx.end(); buzz([30, 50, 30]);
     toast("¡Tiempo!", "blue");
     later(results, 1100);

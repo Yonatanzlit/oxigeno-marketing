@@ -161,6 +161,12 @@
       footer .wrap{padding-block:10px calc(10px + env(safe-area-inset-bottom))}
     }
     /* keep last: hidden screens must stay hidden */
+    /* music sync: beat pulses + breathing Play button */
+    .beat{animation:beat .28s ease-out}
+    @keyframes beat{0%{transform:scale(1.07)}100%{transform:scale(1)}}
+    .prog.beat{animation:none}.prog.beat i{animation:glow .3s ease-out}
+    @keyframes glow{0%{filter:brightness(1.35)}100%{filter:none}}
+    @media (prefers-reduced-motion:reduce){.beat,.prog.beat i{animation:none}}
     [hidden],[hidden][hidden]{display:none!important}
   </style>
 </head>
@@ -239,6 +245,7 @@
   </footer>
   <canvas id="confetti" hidden></canvas>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-  <script src="memotest.js?v=6" defer></script>
+  <script src="../music.js?v=1" defer></script>
+  <script src="memotest.js?v=7" defer></script>
 </body>
 </html>
