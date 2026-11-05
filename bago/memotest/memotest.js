@@ -39,8 +39,9 @@
     try {
       var body = "e=" + e + (extra ? "&t=" + Math.round(extra.t) + "&a=" + extra.a : "");
       var url = "../stats.php";
-      if (navigator.sendBeacon) navigator.sendBeacon(url, new Blob([body], { type: "application/x-www-form-urlencoded" }));
-      else fetch(url, { method: "POST", body: body, headers: { "Content-Type": "application/x-www-form-urlencoded" }, keepalive: true });
+      var beacon = function () { try { if (navigator.sendBeacon) navigator.sendBeacon(url, new Blob([body], { type: "application/x-www-form-urlencoded" })); } catch (e) {} };
+      if (window.fetch) fetch(url, { method: "POST", body: body, headers: { "Content-Type": "application/x-www-form-urlencoded" }, keepalive: true, cache: "no-store" }).catch(beacon);
+      else beacon();
     } catch (err) {}
   }
   try { if (!sessionStorage.getItem("bago-memo-v")) { sessionStorage.setItem("bago-memo-v", "1"); track("visit"); } } catch (err) { track("visit"); }

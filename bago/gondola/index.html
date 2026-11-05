@@ -75,7 +75,7 @@
     .track.move{animation:slide var(--dur,14s) linear infinite}
     .row:nth-child(odd) .track.move{animation-direction:reverse}
     @keyframes slide{to{transform:translateX(-50%)}}
-    .it{appearance:none;border:0;background:none;font:inherit;padding:0 4%;width:var(--iw,72px);height:calc(var(--iw,72px) * 1.32);position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+    .it{appearance:none;border:0;background:none;font:inherit;padding:0 calc(var(--iw,72px) * .05);width:var(--iw,72px);height:calc(var(--iw,72px) * 1.32);position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
     .it::before{content:"";position:absolute;left:18%;right:18%;bottom:-3px;height:9px;border-radius:50%;background:radial-gradient(closest-side,rgba(14,58,99,.35),transparent);z-index:0}
     .it__p{position:relative;z-index:1;width:100%;height:84%;display:block;transition:transform .18s cubic-bezier(.3,1.5,.5,1)}
     .it__p svg,.it__p img{width:100%;height:100%;object-fit:contain;display:block}
@@ -272,6 +272,6 @@
   <div class="flash" id="flash"></div>
   <canvas id="confetti" hidden></canvas>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-  <script src="gondola.js?v=1" defer></script>
+  <script src="gondola.js?v=2" defer></script>
 </body>
 </html>
