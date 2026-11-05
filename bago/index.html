@@ -171,11 +171,11 @@
     .tip b{font-weight:600}
     .empty{margin-top:18px;padding:18px;border-radius:14px;background:var(--blue-soft);color:var(--blue-deep);font-size:.95rem;line-height:1.5}
 
-    dialog.qr{border:0;border-radius:22px;padding:28px 26px 24px;width:min(92vw,400px);box-shadow:var(--shadow);text-align:center;color:var(--ink)}
+    dialog.qr{position:fixed;inset:0;margin:auto;max-height:calc(100dvh - 32px);overflow:auto;border:0;border-radius:22px;padding:28px 26px 24px;width:min(calc(100vw - 32px),400px);box-shadow:var(--shadow);text-align:center;color:var(--ink)}
     dialog.qr::backdrop{background:rgba(14,32,48,.55)}
     dialog.qr h2{font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--blue-deep)}
     dialog.qr p{margin-top:4px;font-size:.88rem;color:var(--ink-mute);word-break:break-all}
-    .qrbox{margin:18px auto 0;width:min(100%,280px);aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .qrbox{margin:16px auto 0;width:min(100%,260px);aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}
     .qrbox svg{width:100%;height:100%;display:block}
     .qr__btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
     .qr__close{margin-top:10px;width:100%}
@@ -338,7 +338,7 @@
         <button class="gbtn gbtn--main" id="qr-png" type="button">Descargar PNG</button>
         <button class="gbtn" id="qr-svg" type="button">Descargar para imprimir (SVG)</button>
       </div>
-      <button class="gbtn qr__close" id="qr-close" type="button">Cerrar</button>
+      <button class="gbtn qr__close" id="qr-close" type="button" autofocus>Cerrar</button>
     </dialog>
   </main>
 
@@ -350,6 +350,6 @@
   </footer>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-  <script src="portal.js?v=2" defer></script>
+  <script src="portal.js?v=3" defer></script>
 </body>
 </html>

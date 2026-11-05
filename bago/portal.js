@@ -45,8 +45,8 @@
     if (typeof qrcode !== "function") return null;
     var q = qrcode(0, "M"); q.addData(GAME_URL); q.make(); return q;
   }
-  function qrSVG(q, size) {
-    var n = q.getModuleCount(), m = 4, total = n + m * 2, d = "";
+  function qrSVG(q, size, margin) {
+    var n = q.getModuleCount(), m = margin == null ? 4 : margin, total = n + m * 2, d = "";
     for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) d += "M" + (c + m) + " " + (r + m) + "h1v1h-1z";
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + " " + total + '"' + (size ? ' width="' + size + '" height="' + size + '"' : "") +
       ' shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="' + d + '" fill="#0e3a63"/></svg>';
@@ -71,7 +71,7 @@
   var dlg = $("qr-dlg");
   $("g-qr").addEventListener("click", function () {
     var q = makeQR();
-    $("qr-box").innerHTML = q ? qrSVG(q) : '<p>No se pudo generar el código. Recargá la página.</p>';
+    $("qr-box").innerHTML = q ? qrSVG(q, 0, 1) : '<p>No se pudo generar el código. Recargá la página.</p>';
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
   });
   $("qr-close").addEventListener("click", function () { dlg.close ? dlg.close() : dlg.removeAttribute("open"); });
