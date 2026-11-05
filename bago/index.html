@@ -133,6 +133,12 @@
     .thumb i:nth-child(2),.thumb i:nth-child(3){background:rgba(255,255,255,.35)}
     .gcard__title{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--blue-deep);line-height:1.15}
     .gcard__sub{font-size:.92rem;color:var(--ink-mute);margin-top:3px}
+    .thumb--shelf{grid-template-columns:1fr;gap:5px;padding:10px 9px}
+    .thumb--shelf i{border-radius:3px;background:rgba(255,255,255,.9)!important;border-bottom:3px solid rgba(255,255,255,.45)}
+    .gswitch{display:inline-flex;gap:4px;padding:4px;margin-top:14px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+    .gswitch button{appearance:none;border:0;background:none;font:inherit;font-weight:600;font-size:.9rem;color:var(--ink-soft);padding:8px 16px;border-radius:9px;cursor:pointer;touch-action:manipulation}
+    .gswitch button[aria-pressed="true"]{background:var(--white);color:var(--blue-deep);box-shadow:0 2px 8px -4px rgba(14,58,99,.4)}
+    .gswitch button:focus-visible{outline:3px solid var(--blue-tint);outline-offset:1px}
     .pill{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:#1f7a49;background:#e8f6ee;padding:6px 12px;border-radius:999px;white-space:nowrap}
     .pill::before{content:"";width:8px;height:8px;border-radius:50%;background:#1f9d5a}
     .field{margin-top:24px}
@@ -190,6 +196,8 @@
       .thumb{width:52px;height:52px;border-radius:13px;padding:7px}
       .gcard__title{font-size:1.3rem}
       .pill{margin-left:0}
+      .gswitch{display:flex}
+      .gswitch button{flex:1;padding:9px 8px}
       .linkbox{flex-direction:column}
       .gactions .gbtn{flex:1 1 100%}
       .tiles{gap:10px}
@@ -274,7 +282,7 @@
     </section>
 
     <section class="wrap games" id="panel-juegos" role="tabpanel" aria-labelledby="tab-juegos" hidden>
-      <article class="card gcard">
+      <article class="card gcard" data-game="memotest">
         <div class="gcard__head">
           <div class="thumb" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div>
@@ -285,10 +293,10 @@
         </div>
 
         <div class="field">
-          <label for="g-link">Link del juego</label>
+          <label for="g-link-memotest">Link del juego</label>
           <div class="linkbox">
-            <input id="g-link" type="text" readonly value="https://oxigenoweb.com/bago/memotest/" />
-            <button class="gbtn gbtn--main" id="g-copy" type="button">
+            <input id="g-link-memotest" class="js-link" type="text" readonly value="https://oxigenoweb.com/bago/memotest/" />
+            <button class="gbtn gbtn--main js-copy" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
               <span>Copiar link</span>
             </button>
@@ -296,15 +304,52 @@
         </div>
 
         <div class="gactions">
-          <button class="gbtn" id="g-qr" type="button">
+          <button class="gbtn js-qr" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3z"/><path d="M20 14v.01"/><path d="M14 20h.01"/><path d="M17 17h4v4"/></svg>
             Ver código QR
           </button>
-          <button class="gbtn" id="g-dl" type="button">
+          <button class="gbtn js-dl" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
             Descargar QR
           </button>
           <a class="gbtn" href="memotest/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+            Probar juego
+          </a>
+        </div>
+      </article>
+
+      <article class="card gcard" data-game="gondola">
+        <div class="gcard__head">
+          <div class="thumb thumb--shelf" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div>
+            <h2 class="gcard__title">Góndola Rush Bagóvit</h2>
+            <div class="gcard__sub">Juego de velocidad · encontrar Bagóvit en la góndola</div>
+          </div>
+          <span class="pill">Activo</span>
+        </div>
+
+        <div class="field">
+          <label for="g-link-gondola">Link del juego</label>
+          <div class="linkbox">
+            <input id="g-link-gondola" class="js-link" type="text" readonly value="https://oxigenoweb.com/bago/gondola/" />
+            <button class="gbtn gbtn--main js-copy" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copiar link</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="gactions">
+          <button class="gbtn js-qr" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3z"/><path d="M20 14v.01"/><path d="M14 20h.01"/><path d="M17 17h4v4"/></svg>
+            Ver código QR
+          </button>
+          <button class="gbtn js-dl" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Descargar QR
+          </button>
+          <a class="gbtn" href="gondola/" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
             Probar juego
           </a>
@@ -316,11 +361,15 @@
           <h2>Estadísticas</h2>
           <span id="s-updated">Cargando…</span>
         </div>
+        <div class="gswitch" role="group" aria-label="Elegí el juego">
+          <button type="button" data-g="memotest" aria-pressed="true">Memotest</button>
+          <button type="button" data-g="gondola" aria-pressed="false">Góndola Rush</button>
+        </div>
         <div class="tiles">
           <div class="tile"><b id="s-visits">–</b><span>Visitas</span><small>Personas que abrieron el juego</small></div>
           <div class="tile"><b id="s-starts">–</b><span>Partidas</span><small>Veces que tocaron Jugar</small></div>
-          <div class="tile"><b id="s-finishes">–</b><span>Terminadas</span><small id="s-rate">Encontraron los 8 pares</small></div>
-          <div class="tile"><b id="s-time">–</b><span>Tiempo promedio</span><small id="s-tries">Por partida terminada</small></div>
+          <div class="tile"><b id="s-finishes">–</b><span>Terminadas</span><small id="s-rate">Partidas completas</small></div>
+          <div class="tile"><b id="s-time">–</b><span id="s-tlabel">Tiempo promedio</span><small id="s-tries">Por partida terminada</small></div>
         </div>
         <div class="chart">
           <h3>Partidas por día · últimos 30 días</h3>
@@ -332,7 +381,7 @@
 
     <dialog class="qr" id="qr-dlg" aria-labelledby="qr-title">
       <h2 id="qr-title">Código QR del juego</h2>
-      <p>Escaneá con la cámara del celular para abrir el Memotest.</p>
+      <p id="qr-text">Escaneá con la cámara del celular para abrir el juego.</p>
       <div class="qrbox" id="qr-box"></div>
       <div class="qr__btns">
         <button class="gbtn gbtn--main" id="qr-png" type="button">Descargar PNG</button>
@@ -350,6 +399,6 @@
   </footer>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-  <script src="portal.js?v=3" defer></script>
+  <script src="portal.js?v=4" defer></script>
 </body>
 </html>
