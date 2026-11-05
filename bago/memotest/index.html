@@ -54,7 +54,11 @@
     .btn--icon{padding:10px;width:42px;justify-content:center}
     .btn:focus-visible{outline:3px solid var(--blue-tint);outline-offset:2px}
 
+    .prog{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:-6px 0 16px}
+    .prog i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#ff9a3c,var(--bv-dark));transition:width .5s cubic-bezier(.3,1.4,.5,1)}
+    .panel__kick{display:none}
     .stage{position:relative;max-width:560px;margin:0 auto}
+    .board{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
     .board{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,2.2vw,14px);perspective:1100px}
     .mc{appearance:none;border:0;background:none;padding:0;aspect-ratio:4/5;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:16px}
     .mc:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
@@ -120,34 +124,41 @@
     .record{display:inline-block;margin-top:12px;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,#ff9a3c,var(--bv-dark));padding:6px 14px;border-radius:999px;animation:pop .6s .9s cubic-bezier(.3,1.7,.5,1) both}
     #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
 
-    @media (max-width:560px){
-      .tabs{width:100%;margin-top:18px}
-      .tab{flex:1;justify-content:center;padding:11px 10px;font-size:.94rem}
-      .game{padding-block:0 40px}
-      .game__card{padding:14px 12px 16px;margin:0 -6px}
-      .hud{margin-bottom:14px;gap:10px}
-      .stats{gap:6px;flex:1}
-      .stat{min-width:0;flex:1;padding:8px 6px 7px}
-      .stat b{font-size:1.25rem}
-      .stat span{font-size:.58rem;letter-spacing:.08em}
-      .hud__actions{width:100%;justify-content:space-between}
-      .hud__actions .btn:last-child{flex:1;justify-content:center}
-      .mc{border-radius:12px}
-      .mc__back::before{inset:4px;border-radius:9px}
-      .panel{padding:22px 18px 20px}
-      .panel h3{font-size:1.7rem}
-      .stars svg{width:46px;height:46px}
-    }
     @media (prefers-reduced-motion:reduce){
       .mc__in{transition-duration:.01s}
       .mc.deal,.mc.shake,.mc.pop,.play,.stars svg.on,.toast.show,.record{animation:none!important}
       .toast.show{opacity:1}
     }
+    /* ---------- Phone: one thin bar, the board fills the screen ---------- */
     @media (max-width:560px){
-      .wrap{padding:0 14px}
-      .top .wrap{height:56px}
+      .wrap{padding:0 12px}
+      .top{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top)}
+      .top .wrap{height:50px}
+      .bv{font-size:.98rem;padding:5px 12px 6px}
       .top__title{font-size:1.15rem}
-      .intro-line{padding:16px 0 2px}
+      .intro-line{display:none}
+      .game{padding:10px 0 calc(14px + env(safe-area-inset-bottom))}
+      .game__card{padding:0;background:none;border:0;box-shadow:none;border-radius:0;overflow:visible}
+      .hud{flex-wrap:nowrap;gap:8px;margin-bottom:10px}
+      .stats{gap:6px;flex:1;min-width:0}
+      .stat{flex:1;min-width:0;padding:7px 4px 6px;border-radius:12px}
+      .stat b{font-size:1.2rem}
+      .stat span{font-size:.56rem;letter-spacing:.08em;margin-top:3px}
+      .hud__actions{gap:6px;flex:none}
+      .btn{width:44px;height:44px;padding:0;justify-content:center;border-radius:12px}
+      .btn .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+      .prog{margin:0 0 12px}
+      .stage{max-width:min(100%,calc((100dvh - 170px) * .8))}
+      .board{gap:8px}
+      .mc{border-radius:12px}
+      .mc__back::before{inset:4px;border-radius:9px}
+      .ov{position:fixed;inset:0;z-index:30;padding:16px;background:rgba(243,246,250,.5)}
+      .count{background:none}
+      .panel{padding:22px 18px 20px;max-height:calc(100dvh - 32px);overflow:auto}
+      .panel__kick{display:block;margin:0 0 4px!important;font-size:.82rem!important;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--bv-dark)!important}
+      .panel h3{font-size:1.7rem}
+      .stars svg{width:46px;height:46px}
+      footer .wrap{padding-block:10px calc(10px + env(safe-area-inset-bottom))}
     }
     /* keep last: hidden screens must stay hidden */
     [hidden],[hidden][hidden]{display:none!important}
@@ -181,10 +192,11 @@
             </button>
             <button class="btn" id="restart">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-              Reiniciar
+              <span class="lbl">Reiniciar</span>
             </button>
           </div>
         </div>
+        <div class="prog" aria-hidden="true"><i id="bar"></i></div>
 
         <div class="stage" id="stage">
           <div class="board idle locked" id="board" aria-label="Tablero de cartas"></div>
@@ -192,6 +204,7 @@
           <div class="ov" id="intro">
             <div class="panel">
               <img class="panel__logo" src="/assets/logo.png" alt="Oxígeno Marketing" />
+              <p class="panel__kick">¿Cuánta memoria tenés?</p>
               <h3>Memotest</h3>
               <p>Encontrá los 8 pares en la menor cantidad de intentos y en el menor tiempo posible.</p>
               <div class="panel__best" id="best-intro" hidden></div>
@@ -226,6 +239,6 @@
   </footer>
   <canvas id="confetti" hidden></canvas>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-  <script src="memotest.js?v=4" defer></script>
+  <script src="memotest.js?v=5" defer></script>
 </body>
 </html>

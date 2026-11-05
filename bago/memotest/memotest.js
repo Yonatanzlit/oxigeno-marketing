@@ -118,6 +118,7 @@
     $("v-time").textContent = fmt(elapsed);
     $("v-tries").textContent = tries;
     $("v-pairs").textContent = matched + "/" + PAIRS;
+    $("bar").style.width = (100 * matched / PAIRS) + "%";
   }
   function reset() {
     clearAll(); open = []; matched = 0; tries = 0; combo = 0; elapsed = 0; lock = true;
