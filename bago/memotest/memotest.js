@@ -1,27 +1,18 @@
 /* Memotest Bagóvit — Oxígeno Marketing, portal de cliente para Bagó.
-   Plain JS, no dependencies. To use real product photos, set `img` on a
-   product (e.g. img: "img/solar-50.png" inside /bago/memotest/) and it replaces the drawing. */
+   Plain JS, no dependencies. Product photos live in /bago/memotest/img/. */
 (function () {
   "use strict";
 
-  /* ---------- Products (8 pairs). PLACEHOLDERS until Oxígeno sends photos + names. ---------- */
+  /* ---------- Products (8 pairs) ---------- */
   var PRODUCTS = [
-    { id: "solar", name: "Protector Solar FPS 50", svg:
-      '<svg viewBox="0 0 80 100"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e9edf2"/></linearGradient></defs><rect x="31" y="6" width="18" height="14" rx="3" fill="#F07D1A"/><rect x="22" y="18" width="36" height="74" rx="10" fill="url(#g1)" stroke="#d5dce4"/><rect x="22" y="42" width="36" height="26" fill="#F07D1A"/><text x="40" y="61" text-anchor="middle" font-family="Inter,Arial" font-weight="700" font-size="15" fill="#fff">50</text><rect x="28" y="24" width="5" height="60" rx="2.5" fill="#fff" opacity=".7"/></svg>' },
-    { id: "spray", name: "Spray Solar", svg:
-      '<svg viewBox="0 0 80 100"><defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#ff9a3c"/><stop offset="1" stop-color="#d9650a"/></linearGradient></defs><path d="M34 8h14v8l10 4-2 5-8-3v6H34z" fill="#2b3a48"/><rect x="24" y="28" width="32" height="64" rx="9" fill="url(#g2)"/><rect x="28" y="50" width="24" height="22" rx="4" fill="#fff"/><circle cx="40" cy="61" r="6" fill="#ffb21e"/><rect x="27" y="33" width="4" height="54" rx="2" fill="#fff" opacity=".35"/></svg>' },
-    { id: "body", name: "Crema Corporal", svg:
-      '<svg viewBox="0 0 80 100"><path d="M22 10h36l-4 64H26z" fill="#fff" stroke="#d5dce4"/><rect x="25" y="74" width="30" height="18" rx="4" fill="#1aa6a6"/><rect x="26" y="28" width="28" height="26" rx="3" fill="#e6f6f6"/><text x="40" y="45" text-anchor="middle" font-family="Inter,Arial" font-weight="700" font-size="9" fill="#128585">BODY</text><path d="M22 10h36" stroke="#cfd7df" stroke-width="3"/></svg>' },
-    { id: "lotion", name: "Loción Hidratante", svg:
-      '<svg viewBox="0 0 80 100"><path d="M38 6h4v8h12v5H40v10" fill="none" stroke="#2f6fb3" stroke-width="4" stroke-linejoin="round"/><rect x="33" y="26" width="14" height="8" rx="2" fill="#2f6fb3"/><rect x="22" y="34" width="36" height="58" rx="10" fill="#fff" stroke="#d5dce4"/><path d="M22 60h36v14H22z" fill="#2f6fb3"/><path d="M40 44c4 5 5 8 5 10a5 5 0 0 1-10 0c0-2 1-5 5-10z" fill="#9cc4ec"/></svg>' },
-    { id: "aloe", name: "Gel After Sun", svg:
-      '<svg viewBox="0 0 80 100"><defs><linearGradient id="g5" x1="0" x2="1"><stop offset="0" stop-color="#b9ecc4"/><stop offset="1" stop-color="#6fcf86"/></linearGradient></defs><rect x="32" y="6" width="16" height="12" rx="3" fill="#1f8a4c"/><path d="M26 18h28l4 70a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6z" fill="url(#g5)"/><path d="M40 36c-8 10-8 22 0 34 8-12 8-24 0-34z" fill="#1f8a4c"/><path d="M40 40v28" stroke="#b9ecc4" stroke-width="1.6"/></svg>' },
-    { id: "kids", name: "Protector Kids", svg:
-      '<svg viewBox="0 0 80 100"><rect x="30" y="6" width="20" height="13" rx="6" fill="#e5398b"/><rect x="18" y="18" width="44" height="74" rx="20" fill="#ffd23f"/><circle cx="40" cy="55" r="11" fill="#ff8a00"/><g stroke="#ff8a00" stroke-width="3" stroke-linecap="round"><path d="M40 36v-5"/><path d="M40 79v-5"/><path d="M21 55h5"/><path d="M54 55h5"/><path d="M27 42l3 3"/><path d="M50 65l3 3"/><path d="M53 42l-3 3"/><path d="M30 65l-3 3"/></g></svg>' },
-    { id: "hands", name: "Crema de Manos", svg:
-      '<svg viewBox="0 0 80 100"><path d="M26 8h28l-3 62H29z" fill="#fde3ea" stroke="#f3b8c8"/><rect x="29" y="70" width="22" height="22" rx="5" fill="#d94676"/><path d="M33 30c0-4 5-6 7-1 2-5 7-3 7 1 0 5-7 10-7 10s-7-5-7-10z" fill="#d94676"/><rect x="31" y="46" width="18" height="3" rx="1.5" fill="#f3b8c8"/><rect x="34" y="52" width="12" height="3" rx="1.5" fill="#f3b8c8"/></svg>' },
-    { id: "lips", name: "Bálsamo Labial", svg:
-      '<svg viewBox="0 0 80 100"><rect x="30" y="8" width="20" height="34" rx="6" fill="#7a4cc2"/><rect x="28" y="40" width="24" height="6" fill="#5b3596"/><rect x="28" y="46" width="24" height="46" rx="4" fill="#fff" stroke="#d5dce4"/><rect x="28" y="58" width="24" height="18" fill="#efe7fb"/><path d="M33 67c3-3 5-3 7-1 2-2 4-2 7 1-3 3-11 3-14 0z" fill="#7a4cc2"/><rect x="33" y="12" width="4" height="26" rx="2" fill="#fff" opacity=".35"/></svg>' }
+    { id: "emulsion50", name: "Emulsión FPS 50", img: "img/emulsion-50.jpg" },
+    { id: "spray50", name: "Spray FPS 50", img: "img/spray-50.jpg" },
+    { id: "spray30", name: "Spray Bronceador FPS 30", img: "img/spray-30.jpg" },
+    { id: "bebes75", name: "Bebés FPS 75", img: "img/bebes-75.jpg" },
+    { id: "labial", name: "Protector Labial", img: "img/labial.jpg" },
+    { id: "facial45", name: "Facial con Color FPS 45", img: "img/facial-45.jpg" },
+    { id: "familiar50", name: "Familiar FPS 50", img: "img/familiar-50.jpg" },
+    { id: "aloe", name: "Aloe Vera Post Solar", img: "img/aloe-vera.jpg" }
   ];
   var PAIRS = PRODUCTS.length;
 
@@ -117,7 +108,7 @@
       var b = document.createElement("button");
       b.className = "mc"; b.type = "button";
       b.setAttribute("aria-label", "Carta " + (i + 1) + ", boca abajo");
-      b.innerHTML = '<span class="mc__in"><span class="mc__f mc__back"><span class="mc__mark">Bagóvit<small>BAGÓ</small></span></span>' +
+      b.innerHTML = '<span class="mc__in"><span class="mc__f mc__back"></span>' +
         '<span class="mc__f mc__front">' + faceHTML(d.p) + '<span class="mc__name">' + d.p.name + "</span></span></span>";
       b.addEventListener("click", function () { pick(b); });
       b._p = d.p; b._i = i;
@@ -304,5 +295,6 @@
   $("again").addEventListener("click", start);
   $("restart").addEventListener("click", function () { audio(); start(); });
 
+  PRODUCTS.forEach(function (p) { new Image().src = p.img; });
   reset(); paintBest();
 })();
